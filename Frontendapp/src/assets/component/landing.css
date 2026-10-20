@@ -73,10 +73,7 @@ html { scroll-behavior: smooth; }
   gap: 15px;
   align-items: center;
   padding: 6rem 2rem 3rem;
-  background:rgb(12, 12, 158)
-   /* linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(/soon.jpeg) center / cover no-repeat,
-    #1e3c72;*/
+background-color: rgb(8, 13, 18);
 }
 .landing-hero-image{
   max-width: 500px;
@@ -85,12 +82,8 @@ html { scroll-behavior: smooth; }
 
 }
 .landing-hero-image img{
-width: 100%;
-max-width: 500px;
-height: auto;
-object-fit: cover;
- border-radius: 15px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15),0 30px 60px -15px rgba(0, 0, 0, 0.4);
+display: flex;
+gap: 10px;
   
 }
 
@@ -123,7 +116,7 @@ object-fit: cover;
   font-weight: 700;
   letter-spacing: 4px;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 /* H1 */
@@ -140,12 +133,13 @@ object-fit: cover;
   margin-bottom: 1.5rem;
   color: aliceblue;
   font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
 .landing-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 10px;
 }
 
 /* SECTIONS */

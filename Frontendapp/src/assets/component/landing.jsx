@@ -10,9 +10,9 @@ const navLinks = [
 ]
 
 const features = [
-  { title: 'Fast', text: 'Short description of your first feature.' },
-  { title: 'Simple', text: 'Short description of your second feature.' },
-  { title: 'Reliable', text: 'Short description of your third feature.' },
+  { title: 'Report an incident', text: 'Employees can easily  report hardware and software problems to the IT department.' },
+  { title: 'IT support', text: 'IT technicianns can receive update and resolve reported incidents efficiently.' },
+  { title: 'Notifications', text: 'Users are are notified.' },
 ]
 
 const Landing = () => {
@@ -58,10 +58,11 @@ const Landing = () => {
         </div>
 
          </div>
-          div
+
         <div className="landing-hero-image">
 
-            <img src="inc.jpeg" alt="hero" />
+            <img src="new.png" alt="hero" />
+            
         </div>
 
        
@@ -83,8 +84,13 @@ const Landing = () => {
       {/* ABOUT */}
       <section id="about" className="landing-section landing-alt">
         <h2>About</h2>
-        <p className="landing-about">Our platform  centralizes itincident and support request management within the organization. It allows users to manage their incidents and support requests efficiently.
-          It allow users to report hardware and software problems,track their request , and communicate with the IT technicians throughtout the resolution process. The platform also provides IT technicians with a centralized dashboard to manage and prioritize incoming requests, assign tasks, and track progress. Overall, our platform streamlines the incident and support request management process, improving communication and collaboration between users and IT technicians.
+        <p className="landing-about">Our platform  centralizes itincident and support request management within 
+          the organization. It allows users to manage their incidents and support requests efficiently.
+          It allow users to report hardware and software problems,track their request , and communicate with the IT
+           technicians throughtout the resolution process. The platform also provides IT technicians with a 
+           centralized dashboard to manage and prioritize incoming requests, assign tasks, and track progress. 
+           Overall, our platform streamlines the incident and support request 
+          management process, improving communication and collaboration between users and IT technicians.
         </p>
       </section>
 

@@ -1,22 +1,39 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import api from '../../services/api'
 import './style.css'
 
 const Login = () => {
-  const [values, setValues] = useState({name:'', email: '', password: '' })
+  const [values, setValues] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (e) =>
     setValues({ ...values, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (values.password.length < 6) {
       setError('Password must be at least 6 characters')
       return
     }
     setError('')
-    console.log(values) // call your API here
+    setLoading(true)
+    try {
+      const { data } = await api.post('/login', values)
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('role', data.role)
+
+      if (data.role === 'admin') navigate('/admin')
+      else if (data.role === 'it_user') navigate('/it')
+      else navigate('/dashboard')
+    } catch (err) {
+      setError(err.response?.data?.error || 'Cannot reach the server')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -27,32 +44,13 @@ const Login = () => {
         {error && <div className="alert alert-danger py-2">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-            <label htmlFor="name" className="form-label fw-semibold">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={values.name}
-              onChange={handleChange}
-              autoComplete="name"
-              placeholder="Enter your name"
-              className="form-control"
-              required
-            />
-          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label fw-semibold">Email</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              autoComplete="email"
-              placeholder="you@example.com"
-              className="form-control"
-              required
+              type="email" id="email" name="email"
+              value={values.email} onChange={handleChange}
+              autoComplete="email" placeholder="you@example.com"
+              className="form-control" required
             />
           </div>
 
@@ -61,26 +59,25 @@ const Login = () => {
             <div className="input-group">
               <input
                 type={showPassword ? 'text' : 'password'}
-                onClick={() => setShowPassword(!showPassword)}
-                id="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                autoComplete="current-password"
-                placeholder="Enter your password"
-                className="form-control"
-                required
+                id="password" name="password"
+                value={values.password} onChange={handleChange}
+                autoComplete="current-password" placeholder="Enter your password"
+                className="form-control" required
               />
-              
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
             </div>
           </div>
 
-          <button type="submit" className="btn btn-success w-100">
-            Login
+          <button type="submit" className="btn btn-success w-100" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-
-        
       </div>
     </div>
   )
