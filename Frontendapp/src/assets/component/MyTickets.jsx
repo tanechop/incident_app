@@ -11,6 +11,7 @@ const badge = {
 const MyTickets = () => {
   const [tickets, setTickets] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   const load = () =>
     api.get('/tickets/my')
@@ -21,8 +22,13 @@ const MyTickets = () => {
   useEffect(() => { load() }, [])
 
   const closeTicket = async (id) => {
-    await api.put(`/tickets/${id}/close`)
-    load()
+    setError('')
+    try {
+      await api.put(`/tickets/${id}/close`)
+      load()
+    } catch (err) {
+      setError(err.response?.data?.error || 'Could not close the ticket')
+    }
   }
 
   if (loading) return <p>Loading...</p>
@@ -31,6 +37,7 @@ const MyTickets = () => {
     <div className="card">
       <div className="card-body table-responsive">
         <h5 className="mb-3">My tickets</h5>
+        {error && <div className="alert alert-danger py-2">{error}</div>}
         <table className="table align-middle">
           <thead>
             <tr>
@@ -45,7 +52,12 @@ const MyTickets = () => {
             {tickets.map((t) => (
               <tr key={t.id}>
                 <td>{t.id}</td>
-                <td>{t.title}</td>
+                <td>
+                  <div>{t.title}</div>
+                  {t.resolution && (
+                    <div className="small text-muted">Solution: {t.resolution}</div>
+                  )}
+                </td>
                 <td>{t.category_name}</td>
                 <td>{t.priority}</td>
                 <td>

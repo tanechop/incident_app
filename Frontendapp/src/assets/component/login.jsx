@@ -25,6 +25,7 @@ const Login = () => {
       const { data } = await api.post('/login', values)
       localStorage.setItem('token', data.token)
       localStorage.setItem('role', data.role)
+      localStorage.setItem('name', data.name)
 
       if (data.role === 'admin') navigate('/admin')
       else if (data.role === 'it_user') navigate('/it')

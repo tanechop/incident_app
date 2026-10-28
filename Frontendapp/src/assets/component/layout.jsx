@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import NotificationBell from './NotificationBell'
 import './dashboard.css'
 
 const roleNames = { staff: 'Staff', it_user: 'IT support', admin: 'Administrator' }
@@ -57,6 +58,7 @@ const Layout = ({ title, links }) => {
           </div>
 
           <div className="d-flex align-items-center gap-3">
+            <NotificationBell />
             <div className="text-end lh-sm d-none d-sm-block">
               <div className="fw-semibold small">{name}</div>
               <div className="text-muted" style={{ fontSize: '.75rem' }}>{roleLabel}</div>

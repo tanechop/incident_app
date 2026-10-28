@@ -8,6 +8,7 @@ import MyTickets from './assets/component/MyTickets'
 import Landing from './assets/component/landing'  
 import ITHome from './assets/component/ITHome'
 import AssignedTickets from './assets/component/AssignedTickets'
+import AvailableTickets from './assets/component/AvailableTickets'
 import AdminHome from './assets/component/AdminHome'
 import AllTickets from './assets/component/AllTickets'
 import Users from './assets/component/Users'
@@ -17,20 +18,21 @@ import Statistics from './assets/component/Statistics'
 // import your landing page component here
 
 const staffLinks = [
-  { to: '/dashboard', label: 'Dashboard', end: true },
-  { to: '/dashboard/new', label: 'New ticket' },
-  { to: '/dashboard/tickets', label: 'My tickets' },
+  { to: '/dashboard', label: 'Dashboard', end: true, icon: 'speedometer2' },
+  { to: '/dashboard/new', label: 'New ticket', icon: 'plus-circle' },
+  { to: '/dashboard/tickets', label: 'My tickets', icon: 'ticket-detailed' },
 ]
 const itLinks = [
-  { to: '/it', label: 'Dashboard', end: true },
-  { to: '/it/tickets', label: 'Assigned tickets' },
+  { to: '/it', label: 'Dashboard', end: true, icon: 'speedometer2' },
+  { to: '/it/available', label: 'Available tickets', icon: 'inbox' },
+  { to: '/it/tickets', label: 'Assigned tickets', icon: 'wrench-adjustable' },
 ]
 const adminLinks = [
-  { to: '/admin', label: 'Dashboard', end: true },
-  { to: '/admin/tickets', label: 'All tickets' },
-  { to: '/admin/users', label: 'Users' },
-  { to: '/admin/categories', label: 'Categories' },
-  { to: '/admin/statistics', label: 'Statistics' },
+  { to: '/admin', label: 'Dashboard', end: true, icon: 'speedometer2' },
+  { to: '/admin/tickets', label: 'All tickets', icon: 'ticket-detailed' },
+  { to: '/admin/users', label: 'Users', icon: 'people' },
+  { to: '/admin/categories', label: 'Categories', icon: 'tags' },
+  { to: '/admin/statistics', label: 'Statistics', icon: 'bar-chart' },
 ]
 
 function App() {
@@ -60,6 +62,7 @@ function App() {
   }
 >
   <Route index element={<ITHome />} />
+  <Route path="available" element={<AvailableTickets />} />
   <Route path="tickets" element={<AssignedTickets />} />
 </Route>
 <Route
