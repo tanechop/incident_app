@@ -3,12 +3,13 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import NotificationBell from './NotificationBell'
 import './dashboard.css'
 
-const roleNames = { staff: 'Staff', it_user: 'IT support', admin: 'Administrator' }
+const roleNames = { staff: 'Staff', it_user: 'IT Support', admin: 'Administrator' }
 
 const Layout = ({ title, links }) => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-  const roleLabel = roleNames[localStorage.getItem('role')] || ''
+  const currentRole = localStorage.getItem('role') || 'staff'
+  const roleLabel = roleNames[currentRole] || 'User'
   const name = localStorage.getItem('name') || roleLabel
 
   const logout = () => {
@@ -18,14 +19,17 @@ const Layout = ({ title, links }) => {
 
   return (
     <div className="app-shell">
+      {/* Off-canvas mobile backdrop */}
       {open && <div className="sidebar-backdrop" onClick={() => setOpen(false)} />}
 
+      {/* Sidebar (Jira & Freshservice Inspired) */}
       <aside className={'sidebar' + (open ? ' open' : '')}>
         <div className="brand">
-          <i className="bi bi-headset"></i> GLOBAL SERVICE
+          <i className="bi bi-headset"></i>
+          <span>GLOBAL SERVICE</span>
         </div>
 
-        <nav>
+        <nav className="d-flex flex-column gap-1">
           {links.map((l) => (
             <NavLink
               key={l.to}
@@ -34,39 +38,53 @@ const Layout = ({ title, links }) => {
               onClick={() => setOpen(false)}
               className={({ isActive }) => 'side-link' + (isActive ? ' active' : '')}
             >
-              <i className={`bi bi-${l.icon || 'circle'}`}></i> {l.label}
+              <i className={`bi bi-${l.icon || 'circle'}`}></i>
+              <span>{l.label}</span>
             </NavLink>
           ))}
         </nav>
 
-        <button className="side-link mt-auto border-0 bg-transparent text-start" onClick={logout}>
-          <i className="bi bi-box-arrow-left"></i> Logout
+        <button
+          className="side-link mt-auto border-0 bg-transparent text-start"
+          onClick={logout}
+        >
+          <i className="bi bi-box-arrow-left"></i>
+          <span>Sign Out</span>
         </button>
       </aside>
 
+      {/* Main Content Area */}
       <div className="main">
+        {/* Topbar */}
         <header className="topbar">
-          <div className="d-flex align-items-center gap-2" style={{ minWidth: 0 }}>
+          <div className="topbar-title-wrapper">
             <button
-              className="btn btn-light d-lg-none"
+              className="btn btn-light d-lg-none p-2 lh-1"
               onClick={() => setOpen(true)}
-              aria-label="Open menu"
+              aria-label="Open navigation menu"
             >
               <i className="bi bi-list fs-5"></i>
             </button>
-            <h5 className="mb-0 fw-semibold text-truncate">{title}</h5>
+            <div>
+              <h5 className="mb-0 text-truncate">{title}</h5>
+            </div>
           </div>
 
           <div className="d-flex align-items-center gap-3">
             <NotificationBell />
+            
             <div className="text-end lh-sm d-none d-sm-block">
-              <div className="fw-semibold small">{name}</div>
-              <div className="text-muted" style={{ fontSize: '.75rem' }}>{roleLabel}</div>
+              <div className="fw-bold small text-dark">{name}</div>
+              <span className="user-badge mt-1">{roleLabel}</span>
             </div>
-            <div className="avatar">{(name || '?').charAt(0).toUpperCase()}</div>
+
+            <div className="avatar" title={`${name} (${roleLabel})`}>
+              {(name || '?').charAt(0).toUpperCase()}
+            </div>
           </div>
         </header>
 
+        {/* Dynamic Route Content */}
         <main className="content">
           <Outlet />
         </main>
