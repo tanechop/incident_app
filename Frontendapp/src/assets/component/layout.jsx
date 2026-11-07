@@ -22,7 +22,7 @@ const Layout = ({ title, links }) => {
 
       <aside className={'sidebar' + (open ? ' open' : '')}>
         <div className="brand">
-          <i className="bi bi-headset"></i> GLOBAL SERVICE
+          <i className="bi bi-headset"></i> ANOV
         </div>
 
         <nav>

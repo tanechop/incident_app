@@ -1,52 +1,171 @@
-/* Make sure the page fills the screen */
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  max-width: none;
-  width: 100%;
-  min-height: 100vh;
-  text-align: left;
-}
+/* ============================================================
+   GLOBAL SERVICE — Incident & IT Support Management System
+   Authentication & Login Page Stylesheet
+   ============================================================ */
 
 .loginPage {
-  background-image: url(/good.jpeg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-color: rgb(98, 90, 90);
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(244, 63, 94, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.3) 0%, transparent 45%),
+    linear-gradient(135deg, rgba(20, 11, 32, 0.88), rgba(42, 17, 60, 0.82)),
+    url(/good.jpeg) center/cover no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
 }
 
+/* Glassmorphic Login Card */
 .loginform {
+  position: relative;
   width: 100%;
-  max-width: 380px;
-  background-color: transparent;
-backdrop-filter: blur(15px);
--webkit-backdrop-filter: blur(15px);
-padding: 20px;
-  border: none ;
-  border-radius: 12px ;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 38px 34px;
+  border-radius: 8%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 24px 60px -12px rgba(18, 10, 28, 0.45),
+    0 0 0 1px rgba(254, 205, 211, 0.3);
+  animation: fadeInLogin 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInLogin {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.login-brand-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: var(--brand-gradient);
+  color: #100f0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 22px rgba(244, 63, 94, 0.4);
 }
 
 .loginform h2 {
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  color: white;
+  margin-bottom: 6px;
+  font-weight: 800;
+  font-size: 1.65rem;
+  color: #1e1b29;
+  letter-spacing: -0.02em;
+}
+
+.loginform p.subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.92rem;
+  margin-bottom: 24px;
+}
+
+.loginform .form-label {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #334155;
+  margin-bottom: 6px;
 }
 
 .loginform .form-control {
-  padding: 0.65rem 0.75rem;
-  border-radius: 8px !important;
+  padding: 11px 14px;
+  border-radius: var(--radius-md) !important;
+  border: 1.5px solid #ebdbe8;
+  font-size: 0.94rem;
+  background-color: #faf6f9;
+  color: #1e1b29;
+  transition: all 0.2s ease;
 }
 
 .loginform .form-control:focus {
-  border-color: #198754;
-  box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.2);
+  background-color: #ffffff;
+  border-color: #f43f5e;
+  box-shadow: 0 0 0 3.5px rgba(244, 63, 94, 0.18);
+  outline: none;
 }
 
-.loginform .btn {
-  padding: 0.7rem;
-  border-radius: 8px !important;
-  font-weight: 600;
+.loginform .input-group .btn-outline-secondary {
+  border-color: #ebdbe8;
+  color: #64748b;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0 !important;
+  background: #faf6f9;
+}
+
+.loginform .input-group .btn-outline-secondary:hover {
+  background: #f1e4ee;
+  color: #1e1b29;
+}
+
+.loginform .input-group .form-control {
+  border-radius: var(--radius-md) 0 0 var(--radius-md) !important;
+}
+
+.loginform .btn-submit {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-md) !important;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  background: var(--brand-gradient);
+  border: none;
+  color: #1b1515;
+  box-shadow: 0 6px 20px rgba(59, 42, 45, 0.38);
+  transition: all 0.22s ease;
+  margin-top: 8px;
+}
+
+.loginform .btn-submit:hover:not(:disabled) {
+  background: var(--brand-gradient-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(244, 63, 94, 0.48);
+}
+
+.loginform .btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-back-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #64748b;
+  font-size: 0.88rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.login-back-link:hover {
+  color: #e11d48;
+}
+
+@media (max-width: 480px) {
+  .loginform {
+    padding: 28px 22px;
+    border-radius: var(--radius-lg);
+  }
+  .loginform h2 {
+    font-size: 1.45rem;
+  }
 }

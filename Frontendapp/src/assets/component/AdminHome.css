@@ -1,0 +1,52 @@
+/* ---------- incident chart ---------- */
+.ic { padding-left: 40px; }
+.ic-plot { position: relative; height: 240px; margin-top: 34px; }
+.ic-grid { position: absolute; left: 0; right: 0; border-top: 1px solid #e9edf2; }
+.ic-grid:first-child { border-top-color: #cbd5e1; }
+.ic-grid span {
+  position: absolute; left: -40px; width: 30px; text-align: right;
+  transform: translateY(-50%); font-size: .75rem; color: #6b7785;
+}
+.ic-bars { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+.ic-col { position: relative; }
+.ic-bar {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: min(84px, 56%); min-height: 3px; border-radius: 8px 8px 0 0;
+}
+.ic-value {
+  position: absolute; left: 0; right: 0; text-align: center;
+  font-size: 1.3rem; font-weight: 600; color: #0f172a;
+}
+.ic-labels { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; }
+.ic-labels div { text-align: center; padding: 0 4px; }
+.ic-labels strong { display: block; font-size: .9rem; font-weight: 600; color: #0f172a; }
+.ic-labels span { font-size: .8rem; color: #6b7785; }
+
+/* ---------- search + filters ---------- */
+.ah-search { position: relative; }
+.ah-search i {
+  position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+  color: #6b7785; pointer-events: none;
+}
+.ah-search .form-control { height: 48px; padding-left: 44px; border-radius: 12px; }
+
+.ah-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 6px; }
+.ah-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid #dbe2ea; background: #fff; color: #334155;
+  font-size: .875rem; font-weight: 500; transition: background-color .15s, border-color .15s;
+}
+.ah-chip:hover { background: #f1f5f9; }
+.ah-chip .n { color: #6b7785; font-variant-numeric: tabular-nums; }
+.ah-chip.active { background: #1e293b; border-color: #1e293b; color: #fff; }
+.ah-chip.active .n { color: #cbd5e1; }
+.ah-chip:focus-visible { outline: 2px solid #5b7aa6; outline-offset: 2px; }
+
+@media (max-width: 575.98px) {
+  .ic { padding-left: 34px; }
+  .ic-grid span { left: -34px; width: 26px; }
+  .ic-plot { height: 200px; }
+  .ic-labels strong { font-size: .8rem; }
+  .ic-labels span { font-size: .72rem; }
+}

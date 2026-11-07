@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
+import AttachmentLink from './AttachmentLink'
 
 const AvailableTickets = () => {
   const [tickets, setTickets] = useState([])
@@ -61,6 +62,7 @@ const AvailableTickets = () => {
                   <td>
                     <div className="fw-semibold">{t.title}</div>
                     <div className="small text-muted">{t.description}</div>
+                    <AttachmentLink ticket={t} />
                   </td>
                   <td>{t.created_by_name}</td>
                   <td>{t.category_name}</td>

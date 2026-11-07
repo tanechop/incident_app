@@ -5,6 +5,10 @@ import mysql from 'mysql2/promise'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
+import multer from 'multer'
+import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
 dotenv.config()
 
 if (!process.env.JWT_SECRET) {
@@ -15,6 +19,40 @@ if (!process.env.JWT_SECRET) {
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+// ---------- File uploads (ticket attachments) ----------
+// Files are saved in the "uploads" folder next to this file
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const UPLOAD_DIR = path.join(__dirname, 'uploads')
+fs.mkdirSync(UPLOAD_DIR, { recursive: true })
+app.use('/uploads', express.static(UPLOAD_DIR))
+
+const ALLOWED_FILES = ['.png', '.jpg', '.jpeg', '.gif', '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt']
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: UPLOAD_DIR,
+    // random name so two files with the same name never overwrite each other
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase()
+      cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`)
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase()
+    if (ALLOWED_FILES.includes(ext)) return cb(null, true)
+    cb(new Error('Allowed files: images, PDF, Word, Excel or text'))
+  },
+})
+
+// Reads one optional file sent in the field "attachment"
+function uploadAttachment(req, res, next) {
+  upload.single('attachment')(req, res, (err) => {
+    if (!err) return next()
+    const msg = err.code === 'LIMIT_FILE_SIZE' ? 'File is too large (max 5 MB)' : err.message
+    res.status(400).json({ error: msg })
+  })
+}
 
 const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
@@ -172,21 +210,24 @@ app.delete('/categories/:id', auth, only('admin'), wrap(async (req, res) => {
 /*   TICKETS - STAFF */
 
 // Create a ticket
-app.post('/tickets', auth, only('staff'), wrap(async (req, res) => {
+app.post('/tickets', auth, only('staff'), uploadAttachment, wrap(async (req, res) => {
   const { title, description, category_id, priority } = req.body
   if (!title?.trim() || !description?.trim()) {
+    if (req.file) fs.unlink(req.file.path, () => {}) // remove the file we just saved
     return res.status(400).json({ error: 'Title and description are required' })
   }
 
   const [r] = await db.query(
-    `INSERT INTO ticket (title, description, category_id, priority, created_by)
-     VALUES (?, ?, ?, ?, ?)`,
+    `INSERT INTO ticket (title, description, category_id, priority, created_by, attachment, attachment_name)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [
       title.trim(),
       description.trim(),
       category_id || null,
       PRIORITIES.includes(priority) ? priority : 'medium',
       req.user.id,
+      req.file ? req.file.filename : null,
+      req.file ? req.file.originalname : null,
     ]
   )
   const id = r.insertId

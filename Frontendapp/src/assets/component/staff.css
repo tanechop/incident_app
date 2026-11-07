@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&display=swap');
+
+/* Everything here only applies inside the staff page (class "staff-page"),
+   so the IT and admin pages keep their own look. */
+
+.staff-page {
+  /* colors */
+  --paper: #f5f6f8;
+  --surface: #ffffff;
+  --ink: #1c2733;
+  --slate: #5d6b7a;
+  --line: #e3e7ec;
+  --navy: #2a3f5f;
+  --navy-deep: #1f3049;
+  --focus: #5b7aa6;
+
+  /* status colors: tinted background + dark text */
+  --open-bg: #e4eefb;      --open-fg: #1d4f91;
+  --progress-bg: #fcefd2;  --progress-fg: #7a4a04;
+  --resolved-bg: #ddf2e7;  --resolved-fg: #1b6644;
+  --closed-bg: #eceef2;    --closed-fg: #4a5666;
+
+  font-family: 'Public Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- top bar ---------- */
+.staff-page .topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 32px;
+}
+.staff-page .avatar { background: var(--navy); }
+.sp-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; white-space: nowrap; }
+.staff-page .topbar .btn-light { background: transparent; border-color: transparent; }
+.staff-page .topbar > div > .position-relative { margin-right: 6px; }
+.sp-brand i { color: var(--navy); font-size: 1.15rem; }
+.sp-muted { color: var(--slate); }
+.sp-cap { text-transform: capitalize; }
+
+/* ---------- page ---------- */
+.staff-page .content { padding: 44px 32px 72px; }
+.sp-wrap { max-width: 1040px; margin: 0 auto; }
+
+.sp-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
+}
+.sp-title { font-size: 1.65rem; font-weight: 600; letter-spacing: -0.015em; margin: 0; }
+.sp-sub { color: var(--slate); margin: 4px 0 0; }
+
+.staff-page .alert { border: 0; border-radius: 8px; }
+
+/* ---------- buttons ---------- */
+.sp-btn {
+  white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid transparent; border-radius: 8px;
+  padding: 0.6rem 1.15rem; font: inherit; font-weight: 500; line-height: 1.2;
+  cursor: pointer; transition: background-color .15s, border-color .15s;
+}
+.sp-btn-primary { background: var(--navy); color: #fff; }
+.sp-btn-primary:hover { background: var(--navy-deep); }
+.sp-btn-primary:disabled { opacity: .6; cursor: default; }
+.sp-btn-quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.sp-btn-quiet:hover { background: #eef0f3; }
+.sp-btn-small { padding: 0.4rem 0.8rem; font-size: .875rem; }
+.sp-btn:focus-visible, .sp-x:focus-visible {
+  outline: 2px solid var(--focus); outline-offset: 2px;
+}
+
+/* ---------- ticket table ---------- */
+.sp-table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+.sp-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+.sp-table th {
+  text-align: left; white-space: nowrap;
+  font-size: .8125rem; font-weight: 500; color: var(--slate);
+  padding: 16px 24px; border-bottom: 1px solid var(--line);
+}
+.sp-table td {
+  padding: 22px 24px; vertical-align: middle;
+  border-bottom: 1px solid var(--line);
+}
+.sp-table tbody tr:last-child td { border-bottom: 0; }
+
+.sp-row { cursor: pointer; transition: background-color .12s; }
+.sp-row:hover { background: #f8f9fb; }
+.sp-row:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+
+.sp-id { color: var(--slate); white-space: nowrap; width: 1%; }
+.sp-nowrap { white-space: nowrap; }
+.sp-ticket-cell { min-width: 260px; }
+.sp-ticket-title { font-weight: 600; font-size: 1rem; line-height: 1.35; }
+.sp-ticket-meta { color: var(--slate); font-size: .875rem; margin-top: 3px; }
+.sp-clip { color: var(--slate); font-size: .9rem; margin-left: 8px; }
+.sp-high { color: var(--ink); font-weight: 600; }
+.sp-chevron { color: #8a96a3; text-align: right; width: 1%; }
+.sp-row:hover .sp-chevron { color: var(--ink); }
+
+.sp-empty { text-align: center; padding: 64px 24px; margin: 0; color: var(--slate); }
+.sp-empty strong { color: var(--ink); font-size: 1.05rem; font-weight: 600; }
+.sp-empty p { margin: 6px 0 22px; }
+
+/* ---------- status pills ---------- */
+.sp-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  border-radius: 999px; padding: 5px 13px 5px 10px;
+  font-size: .8125rem; font-weight: 500; line-height: 1.2; white-space: nowrap;
+}
+.sp-pill::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+}
+.sp-pill-open        { background: var(--open-bg);     color: var(--open-fg); }
+.sp-pill-in_progress { background: var(--progress-bg); color: var(--progress-fg); }
+.sp-pill-resolved    { background: var(--resolved-bg); color: var(--resolved-fg); }
+.sp-pill-closed      { background: var(--closed-bg);   color: var(--closed-fg); }
+
+/* ---------- overlays: details panel + new ticket dialog ---------- */
+.sp-overlay {
+  position: fixed; inset: 0; z-index: 1050;
+  background: rgba(28, 39, 51, .45);
+  display: flex; justify-content: flex-end;
+}
+.sp-overlay.sp-center { justify-content: center; align-items: center; }
+
+.sp-drawer {
+  --pad: 32px;
+  display: flex; flex-direction: column;
+  width: min(480px, 100vw); height: 100%; overflow-y: auto;
+  background: var(--surface); padding: 24px var(--pad) 0;
+  box-shadow: -12px 0 32px rgba(28, 39, 51, .12);
+  animation: sp-slide .22s ease-out;
+}
+.sp-drawer-top {
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--slate); margin-bottom: 20px;
+}
+.sp-drawer h2 {
+  font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em;
+  line-height: 1.3; margin: 0 0 14px;
+}
+.sp-facts {
+  display: grid; grid-template-columns: 120px 1fr; gap: 12px 16px;
+  margin: 28px 0; padding: 22px 0;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.sp-facts dt { color: var(--slate); font-weight: 400; }
+.sp-facts dd { margin: 0; }
+.sp-section { font-size: .875rem; font-weight: 600; margin: 0 0 6px; }
+.sp-text { white-space: pre-wrap; line-height: 1.65; margin: 0 0 28px; }
+.sp-solution {
+  background: #f1f9f5; border-left: 3px solid #7cc4a0;
+  border-radius: 0 8px 8px 0; padding: 14px 16px;
+}
+/* the action stays visible at the bottom even when the description is long */
+.sp-drawer-foot {
+  position: sticky; bottom: 0; margin: auto calc(var(--pad) * -1) 0;
+  padding: 18px var(--pad) 24px; background: var(--surface);
+  border-top: 1px solid var(--line);
+}
+.sp-drawer .sp-pill { align-self: flex-start; }
+.sp-drawer a { color: var(--navy); }
+.sp-note { color: var(--slate); margin: 0 0 14px; }
+
+.sp-x {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--slate); cursor: pointer;
+}
+.sp-x:hover { background: #eef0f3; color: var(--ink); }
+
+.sp-dialog {
+  width: min(560px, 92vw); max-height: 92vh; overflow-y: auto;
+  background: var(--surface); border-radius: 12px; padding: 28px 32px;
+  box-shadow: 0 20px 48px rgba(28, 39, 51, .2);
+  animation: sp-pop .18s ease-out;
+}
+.sp-dialog-title { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+.staff-page .form-label { font-weight: 500; font-size: .9rem; }
+.staff-page .form-control, .staff-page .form-select {
+  border-color: #d3d9e0; border-radius: 8px; padding: .6rem .8rem;
+}
+.staff-page .form-control:focus, .staff-page .form-select:focus {
+  border-color: var(--navy); box-shadow: 0 0 0 3px rgba(42, 63, 95, .15);
+}
+
+@keyframes sp-slide { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes sp-pop   { from { transform: translateY(8px);  opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .sp-drawer, .sp-dialog { animation: none; }
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 720px) {
+  .staff-page .topbar { padding: 12px 16px; }
+  .staff-page .content { padding: 28px 16px 56px; }
+  .sp-hide-sm { display: none; }
+  .sp-table { min-width: 0; }
+  .sp-table th, .sp-table td { padding-left: 16px; padding-right: 16px; }
+  .sp-drawer { --pad: 20px; }
+  .sp-ticket-cell { min-width: 0; }
+  .staff-page .topbar .gap-3 { gap: 10px !important; }
+  .staff-page .topbar .avatar { display: none; }
+  .sp-dialog { padding: 22px 20px; }
+}

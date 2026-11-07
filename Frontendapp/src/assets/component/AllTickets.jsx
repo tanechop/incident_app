@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../../services/api'
+import AttachmentLink from './AttachmentLink'
 
 const badge = {
   open: 'primary',
@@ -78,7 +79,10 @@ const AllTickets = () => {
               {shown.map((t) => (
                 <tr key={t.id}>
                   <td>{t.id}</td>
-                  <td>{t.title}</td>
+                  <td>
+                    <div>{t.title}</div>
+                    <AttachmentLink ticket={t} />
+                  </td>
                   <td>{t.created_by_name}</td>
                   <td>{t.category_name}</td>
                   <td>{t.priority}</td>
