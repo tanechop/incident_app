@@ -16,7 +16,7 @@
 
   /* status colors: tinted background + dark text */
   --open-bg: #e4eefb;      --open-fg: #1d4f91;
-  --progress-bg: #fcefd2;  --progress-fg: #7a4a04;
+  --progress-bg: #fcefd2;  --progress-fg: #754804;
   --resolved-bg: #ddf2e7;  --resolved-fg: #1b6644;
   --closed-bg: #eceef2;    --closed-fg: #4a5666;
 
@@ -34,12 +34,12 @@
   border-bottom: 1px solid var(--line);
   padding: 14px 32px;
 }
-.staff-page .avatar { background: var(--navy); }
+.staff-page .avatar { background: blue; }
 .sp-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; white-space: nowrap; }
 .staff-page .topbar .btn-light { background: transparent; border-color: transparent; }
 .staff-page .topbar > div > .position-relative { margin-right: 6px; }
-.sp-brand i { color: var(--navy); font-size: 1.15rem; }
-.sp-muted { color: var(--slate); }
+.sp-brand i { color: blue; font-size: 1.15rem; }
+.sp-muted { color: blue; }
 .sp-cap { text-transform: capitalize; }
 
 /* ---------- page ---------- */
@@ -59,12 +59,12 @@
 .sp-btn {
   white-space: nowrap;
   display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid transparent; border-radius: 8px;
+  border: 1px solid rgb(7, 7, 81); border-radius: 8px;
   padding: 0.6rem 1.15rem; font: inherit; font-weight: 500; line-height: 1.2;
   cursor: pointer; transition: background-color .15s, border-color .15s;
 }
-.sp-btn-primary { background: var(--navy); color: #fff; }
-.sp-btn-primary:hover { background: var(--navy-deep); }
+.sp-btn-primary { background: rgb(5, 5, 215); color: #fff; }
+.sp-btn-primary:hover { background: rgb(40, 40, 80); }
 .sp-btn-primary:disabled { opacity: .6; cursor: default; }
 .sp-btn-quiet { background: transparent; color: var(--ink); border-color: var(--line); }
 .sp-btn-quiet:hover { background: #eef0f3; }

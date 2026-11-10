@@ -23,7 +23,6 @@ const adminLinks = [
   { to: '/admin/tickets', label: 'All tickets', icon: 'ticket-detailed' },
   { to: '/admin/users', label: 'Users', icon: 'people' },
   { to: '/admin/categories', label: 'Categories', icon: 'tags' },
-  { to: '/admin/statistics', label: 'Statistics', icon: 'bar-chart' },
 ]
 
 function App() {

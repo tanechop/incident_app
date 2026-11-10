@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --brand: #198754;
+  --brand: #420ad0;
   --page-bg: #f1f5f9;
 }
 
@@ -16,7 +16,7 @@ body { font-family: 'Inter', sans-serif; background: var(--page-bg); }
 .sidebar {
   width: 250px; flex-shrink: 0; padding: 20px 14px;
   display: flex; flex-direction: column;
-  background: linear-gradient(180deg, #0f172a, #1e293b); color: #fff;
+  background: linear-gradient(180deg, #1e1e5d, #090975); color: #fff;
   transition: transform .25s ease;
   z-index: 1040;
 }
@@ -91,7 +91,7 @@ body { font-family: 'Inter', sans-serif; background: var(--page-bg); }
   }
   .sidebar-backdrop {
     display: block; position: fixed; inset: 0;
-    background: rgba(15,23,42,.5); z-index: 1030;
+    background: rgba(5, 28, 76, 0.5); z-index: 1030;
   }
   .content { padding: 18px; }
   .topbar { padding: 12px 18px; }

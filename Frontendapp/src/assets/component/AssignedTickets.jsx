@@ -105,12 +105,21 @@ const AssignedTickets = () => {
                   <td>{t.created_by_name}</td>
                   <td>{t.priority}</td>
                   <td>
-                    <span className={`badge text-bg-${badge[t.status]}`}>
-                      {t.status.replace('_', ' ')}
-                    </span>
+                    {t.queued ? (
+                      <span className="badge text-bg-info">queued</span>
+                    ) : (
+                      <span className={`badge text-bg-${badge[t.status]}`}>
+                        {t.status.replace('_', ' ')}
+                      </span>
+                    )}
                   </td>
                   <td>
-                    {t.status === 'open' && (
+                    {t.status === 'open' && t.queued === 1 && (
+                      <span className="text-muted small">
+                        Waiting: starts when a technician is free
+                      </span>
+                    )}
+                    {t.status === 'open' && !t.queued && (
                       <button className="btn btn-sm btn-primary" onClick={() => takeCharge(t.id)}>
                         Start
                       </button>

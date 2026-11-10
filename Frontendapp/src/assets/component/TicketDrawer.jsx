@@ -5,7 +5,11 @@ import { fmtDateTime } from '../../services/format'
 // Side panel with every detail of one ticket
 const TicketDrawer = ({ ticket: t, error, closing, onClose, onCloseTicket }) => {
   const notes = {
-    open: 'Waiting for the IT team to pick this up.',
+    open: t.assigned_to_name
+      ? t.queued
+        ? `All technicians are busy. ${t.assigned_to_name} has your ticket in the queue and it will go to the first technician who is free.`
+        : `${t.assigned_to_name} has been assigned and will start soon.`
+      : 'Waiting for the IT team to pick this up.',
     in_progress: t.assigned_to_name
       ? `${t.assigned_to_name} is working on this.`
       : 'The IT team is working on this.',

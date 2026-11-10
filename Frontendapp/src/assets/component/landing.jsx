@@ -152,7 +152,7 @@ const Landing = () => {
           <i className="bi bi-headset"></i> ANOV
         </div>
         <p className="mb-1">Modern Incident & IT Support Request Management System</p>
-        <p className="text-secondary small">&copy; {new Date().getFullYear()} ANOV. All rights reserved.</p>
+        <p className="text-secondary small">&copy; {new Date().getFullYear()} achinel51@gmail</p>
       </footer>
     </div>
   )
