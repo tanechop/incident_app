@@ -1,6 +1,6 @@
 import AttachmentLink from './AttachmentLink'
 import StatusPill from './StatusPill'
-import { fmtDateTime } from '../../services/format'
+import { fmtDateTime } from '../../services/Format'
 
 // Side panel with every detail of one ticket
 const TicketDrawer = ({ ticket: t, error, closing, onClose, onCloseTicket }) => {
@@ -40,7 +40,10 @@ const TicketDrawer = ({ ticket: t, error, closing, onClose, onCloseTicket }) => 
           <dt>Category</dt>
           <dd>{t.category_name || 'None'}</dd>
           <dt>Priority</dt>
-          <dd className="sp-cap">{t.priority}</dd>
+          <dd className="sp-cap">
+            {t.priority}
+            {t.priority_source === 'ai' && <span className="sp-muted"> (set by AI)</span>}
+          </dd>
           <dt>Handled by</dt>
           <dd>{t.assigned_to_name || 'Not assigned yet'}</dd>
           <dt>Created</dt>

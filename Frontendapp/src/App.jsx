@@ -12,6 +12,7 @@ import AllTickets from './assets/component/AllTickets'
 import Users from './assets/component/Users'
 import Categories from './assets/component/Categories'
 import Statistics from './assets/component/Statistics'
+import AISettings from './assets/component/AISettings'
 
 const itLinks = [
   { to: '/it', label: 'Dashboard', end: true, icon: 'speedometer2' },
@@ -23,6 +24,7 @@ const adminLinks = [
   { to: '/admin/tickets', label: 'All tickets', icon: 'ticket-detailed' },
   { to: '/admin/users', label: 'Users', icon: 'people' },
   { to: '/admin/categories', label: 'Categories', icon: 'tags' },
+  { to: '/admin/ai', label: 'AI priority', icon: 'stars' },
 ]
 
 function App() {
@@ -68,6 +70,7 @@ function App() {
         <Route path="users" element={<Users />} />
         <Route path="categories" element={<Categories />} />
         <Route path="statistics" element={<Statistics />} />
+        <Route path="ai" element={<AISettings />} />
       </Route>
     </Routes>
   )

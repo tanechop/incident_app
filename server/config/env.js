@@ -23,5 +23,13 @@ export const config = {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
+  // Optional: public address of the web app, shown as a button in emails (e.g. http://localhost:5173)
+  appUrl: process.env.APP_URL,
+  // Optional: Gemini sets the priority of new tickets. Off when GEMINI_API_KEY is missing.
+  gemini: {
+    apiKey: process.env.GEMINI_API_KEY,
+    model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
+    timeoutMs: Number(process.env.GEMINI_TIMEOUT_MS) || 8000,
+  },
   dispatchIntervalMs: Number(process.env.DISPATCH_INTERVAL_MS) || 60000,
 }

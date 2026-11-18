@@ -3,6 +3,7 @@ import { PRIORITIES } from '../config/constants.js'
 import HttpError from '../utils/HttpError.js'
 import { notify } from './notification.service.js'
 import { assigner } from './assigner.js'
+import { prioritizer } from './prioritizer.js'
 
 // Ticket list query with the names filled in
 const TICKET_SELECT = `
@@ -29,15 +30,32 @@ export async function createTicket(userId, { title, description, category_id, pr
     throw new HttpError(400, 'Title and description are required')
   }
   const cleanTitle = title.trim()
+  const cleanDescription = description.trim()
+  const requested = PRIORITIES.includes(priority) ? priority : null
+
+  // Gemini reads the ticket and sets the priority. If it is off or fails,
+  // the priority chosen by the requester is kept (medium by default).
+  let categoryName = null
+  if (category_id) {
+    const [[cat]] = await db.query('SELECT name FROM category WHERE id = ?', [category_id])
+    categoryName = cat?.name ?? null
+  }
+  const ai = await prioritizer.prioritize({
+    title: cleanTitle,
+    description: cleanDescription,
+    category: categoryName,
+    requested,
+  })
+  const finalPriority = ai?.priority ?? requested ?? 'medium'
 
   const [r] = await db.query(
     `INSERT INTO ticket (title, description, category_id, priority, created_by, attachment, attachment_name)
      VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [
       cleanTitle,
-      description.trim(),
+      cleanDescription,
       category_id || null,
-      PRIORITIES.includes(priority) ? priority : 'medium',
+      finalPriority,
       userId,
       file ? file.filename : null,
       file ? file.originalname : null,
@@ -45,12 +63,32 @@ export async function createTicket(userId, { title, description, category_id, pr
   )
   const id = r.insertId
 
-  await notify(userId, id, `Your ticket "${cleanTitle}" was created`)
+  // Remember who decided the priority. Not vital, so a failure here never blocks the ticket.
+  try {
+    await db.query('UPDATE ticket SET priority_source = ?, priority_reason = ? WHERE id = ?', [
+      ai ? 'ai' : 'user',
+      ai?.reason ?? null,
+      id,
+    ])
+  } catch (err) {
+    console.error('Could not save the priority details:', err.message)
+  }
+
+  await notify(
+    userId,
+    id,
+    `Your ticket "${cleanTitle}" was created with ${finalPriority} priority`
+  )
 
   // Automatic assignment: free tech with the lowest workload, or the queue
   await assigner.dispatch()
 
-  return { id }
+  return {
+    id,
+    priority: finalPriority,
+    priority_source: ai ? 'ai' : 'user',
+    priority_reason: ai?.reason ?? null,
+  }
 }
 
 export async function listMyTickets(userId) {

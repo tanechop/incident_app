@@ -10,6 +10,11 @@ export const create = asyncHandler(async (req, res) => {
   res.status(201).json(user)
 })
 
+export const update = asyncHandler(async (req, res) => {
+  const user = await userService.updateUser(req.params.id, req.body, req.user.id)
+  res.json(user)
+})
+
 export const remove = asyncHandler(async (req, res) => {
   await userService.deleteUser(req.params.id, req.user.id)
   res.json({ ok: true })

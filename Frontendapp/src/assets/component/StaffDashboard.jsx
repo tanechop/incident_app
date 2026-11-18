@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
-import { fmtDate } from '../../services/format'
+import { fmtDate } from '../../services/Format'
 import NotificationBell from './NotificationBell'
 import StatusPill from './StatusPill'
 import TicketDrawer from './TicketDrawer'
@@ -32,6 +32,7 @@ const StaffDashboard = () => {
   const [file, setFile] = useState(null)
   const [formError, setFormError] = useState('')
   const [sending, setSending] = useState(false)
+  const [aiOn, setAiOn] = useState(false) // true: the system sets the priority, the form does not ask for it
 
   const load = () =>
     api.get('/tickets/my')
@@ -42,6 +43,7 @@ const StaffDashboard = () => {
   useEffect(() => {
     load()
     api.get('/categories').then((res) => setCategories(res.data)).catch(console.error)
+    api.get('/settings/ai/status').then((res) => setAiOn(res.data.enabled)).catch(() => {})
   }, [])
 
   // Escape closes whatever is open on top
@@ -97,12 +99,17 @@ const StaffDashboard = () => {
       data.append('title', values.title)
       data.append('description', values.description)
       data.append('category_id', values.category_id)
-      data.append('priority', values.priority)
+      if (!aiOn) data.append('priority', values.priority)
       if (file) data.append('attachment', file)
 
-      await api.post('/tickets', data)
+      const { data: created } = await api.post('/tickets', data)
       setShowModal(false)
-      setMessage({ type: 'success', text: 'Your ticket was sent to the IT team.' })
+      // Tell the requester which priority the ticket got, and who decided it
+      const how = created.priority_source === 'ai' ? ' (set by our AI assistant)' : ''
+      setMessage({
+        type: 'success',
+        text: `Your ticket was sent to the IT team. Priority: ${created.priority}${how}.`,
+      })
       load()
     } catch (err) {
       setFormError(err.response?.data?.error || 'Could not create the ticket')
@@ -290,17 +297,25 @@ const StaffDashboard = () => {
                   ))}
                 </select>
               </div>
-              <div className="col-sm-6 mb-3">
-                <label className="form-label">Priority</label>
-                <select
-                  name="priority" value={values.priority} onChange={handleChange}
-                  className="form-select"
-                >
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </div>
+              {aiOn ? (
+                <div className="col-sm-6 mb-3 d-flex align-items-end">
+                  <div className="form-text mb-2">
+                    <i className="bi bi-stars" /> The priority is set automatically when you send the ticket.
+                  </div>
+                </div>
+              ) : (
+                <div className="col-sm-6 mb-3">
+                  <label className="form-label">Priority</label>
+                  <select
+                    name="priority" value={values.priority} onChange={handleChange}
+                    className="form-select"
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              )}
             </div>
 
             <div className="mb-4">

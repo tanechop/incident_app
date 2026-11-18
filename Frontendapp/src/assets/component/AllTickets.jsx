@@ -105,7 +105,12 @@ const AllTickets = () => {
                     </td>
                     <td>{t.created_by_name}</td>
                     <td>{t.category_name}</td>
-                    <td>{t.priority}</td>
+                    <td>
+                      {t.priority}
+                      {t.priority_source === 'ai' && (
+                        <i className="bi bi-stars ms-1 text-primary" title={`Set by AI: ${t.priority_reason || ''}`} />
+                      )}
+                    </td>
                     <td>
                       <span className={`badge text-bg-${statusMeta[t.status]?.badge || 'secondary'}`}>
                         {statusMeta[t.status]?.label || t.status}

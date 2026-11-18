@@ -5,6 +5,7 @@ import ticketRoutes from './ticket.routes.js'
 import userRoutes from './user.routes.js'
 import statsRoutes from './stats.routes.js'
 import notificationRoutes from './notification.routes.js'
+import settingsRoutes from './settings.routes.js'
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use('/tickets', ticketRoutes)
 router.use('/users', userRoutes)
 router.use('/stats', statsRoutes)
 router.use('/notifications', notificationRoutes)
+router.use('/settings', settingsRoutes)
 
 export default router
